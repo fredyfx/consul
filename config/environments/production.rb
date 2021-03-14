@@ -4,7 +4,7 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {
       :address              => 'smtp.gmail.com',
-      :port                 => 587,
+      :port                 => 465,
       :domain               => 'gmail.com',
       :user_name            => 'hello@epicalsoft.com',
       :password             => '21juzt4D3V=.g20',
