@@ -1,17 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.smtp_settings = {
-      :address              => 'smtp.sendgrid.net',
-      :port                 => 587,
-      :domain               => 'sendgrid.net',
-      :user_name            => 'apikey',
-      :password             => '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',
-      :authentication => :plain,
-      :enable_starttls_auto => true,
-      :ssl => true
-  }
+  
 
   # Code is not reloaded between requests.
   config.cache_classes = true
