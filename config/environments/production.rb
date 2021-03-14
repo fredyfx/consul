@@ -3,14 +3,14 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {
-      :address              => 'smtp.gmail.com',
-      :port                 => 465,
-      :domain               => 'gmail.com',
-      :user_name            => 'hello@epicalsoft.com',
-      :password             => '21juzt4D3V=.g20',
+      :address              => 'smtp.sendgrid.net',
+      :port                 => 25,
+      :domain               => 'sendgrid.net',
+      :user_name            => 'apikey',
+      :password             => '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',
       :authentication => :plain,
       :enable_starttls_auto => true,
-      :ssl => yes
+      :ssl => false
   }
 
   # Code is not reloaded between requests.
