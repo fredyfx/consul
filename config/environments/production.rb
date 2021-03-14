@@ -5,7 +5,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
       :address              => 'smtp.gmail.com',
       :port                 => 587,
-      :domain               => 'consuldemo.epicalsoft.com',
+      :domain               => 'gmail.com',
       :user_name            => 'hello@epicalsoft.com',
       :password             => '21juzt4D3V=.g20',
       :authentication => :plain,
