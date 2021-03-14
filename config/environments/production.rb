@@ -1,5 +1,17 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.smtp_settings = {
+      :address              => 'smtp.gmail.com',
+      :port                 => 587,
+      :domain               => 'consuldemo.epicalsoft.com',
+      :user_name            => 'hello@epicalsoft.com',
+      :password             => '21juzt4D3V=.g20',
+      :authentication => :plain,
+      :enable_starttls_auto => true,
+      :ssl => yes
+  }
 
   # Code is not reloaded between requests.
   config.cache_classes = true
