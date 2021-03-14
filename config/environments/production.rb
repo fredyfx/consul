@@ -10,7 +10,7 @@ Rails.application.configure do
       :password             => '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',
       :authentication => :plain,
       :enable_starttls_auto => true,
-      :ssl => false
+      :ssl => true
   }
 
   # Code is not reloaded between requests.
