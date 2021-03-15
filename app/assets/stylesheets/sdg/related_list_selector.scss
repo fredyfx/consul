@@ -2,6 +2,10 @@
   @include grid-column-gutter;
   clear: both;
 
+  > legend {
+    margin-bottom: 0;
+  }
+
   .amsify-suggestags-area .amsify-select-tag {
     color: $white;
 
@@ -12,30 +16,38 @@
     }
   }
 
-  label + ul {
-    $spacing: 0.5%;
-    @include sdg-goal-list($spacing);
+  .goals {
 
-    li {
-      min-width: $sdg-icon-min-width;
-      width: calc(100% / 17 - #{$spacing});
+    + label {
+      @include element-invisible;
+    }
 
-      &[aria-checked=true] img {
-        opacity: 0.15;
-      }
+    legend {
+      font-weight: normal;
+      font-style: italic;
+    }
+  }
 
-      &:focus {
+  .goal-list {
+    @extend %sdg-goal-list-expanded;
+
+    input {
+      @include element-invisible;
+
+      &:focus + label {
         outline: $outline-focus;
       }
 
-      &:hover {
-        cursor: pointer;
-      }
-
-      .sdg-goal-icon {
-        width: 100%;
+      &:checked + label img {
+        opacity: 0.15;
       }
     }
+  }
+
+  .help-text {
+    font-weight: normal;
+    font-style: italic;
+    font-size: $base-font-size;
   }
 
   .input-section {

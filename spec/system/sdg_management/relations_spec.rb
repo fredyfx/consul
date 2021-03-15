@@ -26,10 +26,16 @@ describe "SDG Relations", :js do
     expect(page).to have_css "h2", exact_text: "Debates"
     expect(page).to have_css "li.is-active h2", exact_text: "Pending"
 
-    within("#side_menu") { click_link "Collaborative legislation" }
+    within("#side_menu") { click_link "Legislation processes" }
 
     expect(page).to have_current_path "/sdg_management/legislation/processes"
-    expect(page).to have_css "h2", exact_text: "Collaborative legislation"
+    expect(page).to have_css "h2", exact_text: "Legislation processes"
+    expect(page).to have_css "li.is-active h2", exact_text: "Pending"
+
+    within("#side_menu") { click_link "Legislation proposals" }
+
+    expect(page).to have_current_path "/sdg_management/legislation/proposals"
+    expect(page).to have_css "h2", exact_text: "Legislation proposals"
     expect(page).to have_css "li.is-active h2", exact_text: "Pending"
 
     within("#side_menu") { click_link "Polls" }
@@ -299,17 +305,17 @@ describe "SDG Relations", :js do
       create(:sdg_local_target, code: "1.1.1")
       visit sdg_management_edit_legislation_process_path(process)
 
-      fill_in "Sustainable Development Goals and Targets", with: "3"
+      fill_in "Goals and Targets", with: "3"
       within(".amsify-list") { find(:css, "[data-val='3']").click }
 
       within(".amsify-suggestags-input-area") { expect(page).to have_content "SDG3" }
 
-      fill_in "Sustainable Development Goals and Targets", with: "1.1"
+      fill_in "Goals and Targets", with: "1.1"
       within(".amsify-list") { find(:css, "[data-val='1.1']").click }
 
       within(".amsify-suggestags-input-area") { expect(page).to have_content "1.1" }
 
-      fill_in "Sustainable Development Goals and Targets", with: "1.1.1"
+      fill_in "Goals and Targets", with: "1.1.1"
       within(".amsify-list") { find(:css, "[data-val='1.1.1']").click }
 
       within(".amsify-suggestags-input-area") { expect(page).to have_content "1.1.1" }
@@ -327,8 +333,8 @@ describe "SDG Relations", :js do
       process = create(:legislation_process, title: "SDG process")
 
       visit sdg_management_edit_legislation_process_path(process)
+      fill_in "Goals and Targets", with: "tag nonexistent,"
 
-      fill_in "Sustainable Development Goals and Targets", with: "tag nonexistent,"
       within(".amsify-suggestags-input-area") { expect(page).not_to have_content "tag nonexistent" }
     end
 
@@ -368,7 +374,7 @@ describe "SDG Relations", :js do
         visit sdg_management_edit_legislation_process_path(process)
         click_sdg_goal(1)
 
-        expect(find("li[data-code='1']")["aria-checked"]).to eq "true"
+        expect(find("input[data-code='1']")).to be_checked
       end
 
       scenario "when remove a last tag related to a Goal, the icon will not be checked" do
@@ -380,15 +386,42 @@ describe "SDG Relations", :js do
         visit sdg_management_edit_legislation_process_path(process)
         remove_sdg_goal_or_target_tag(1)
 
-        expect(find("li[data-code='1']")["aria-checked"]).to eq "true"
+        expect(find("input[data-code='1']")).to be_checked
 
         remove_sdg_goal_or_target_tag(1.1)
 
-        expect(find("li[data-code='1']")["aria-checked"]).to eq "true"
+        expect(find("input[data-code='1']")).to be_checked
 
         remove_sdg_goal_or_target_tag("1.1.1")
 
-        expect(find("li[data-code='1']")["aria-checked"]).to eq "false"
+        expect(find("input[data-code='1']")).not_to be_checked
+      end
+
+      context "when we have a Goal and a related Target selected" do
+        scenario "we can remove and add same Goal always keeping the icon as checked" do
+          process = create(:legislation_process, title: "SDG process")
+          process.sdg_goals = [SDG::Goal[1]]
+          process.sdg_targets = [SDG::Target[1.1]]
+
+          visit sdg_management_edit_legislation_process_path(process)
+          click_sdg_goal(1)
+
+          expect(find("input[data-code='1']")).to be_checked
+
+          click_sdg_goal(1)
+
+          expect(find("input[data-code='1']")).to be_checked
+        end
+      end
+
+      scenario "Help page link opens in new window" do
+        process = create(:legislation_process, title: "SDG process")
+
+        visit sdg_management_edit_legislation_process_path(process)
+
+        within_window(window_opened_by { click_link "SDG help page" }) do
+          expect(page).to have_content "Sustainable Development Goals help"
+        end
       end
     end
 
